@@ -10,11 +10,11 @@ dotenv.config({ path: path.resolve(__dirname, "../../env/.env") });
 
 
 export const pool = createPool({
-    host: 'bb9qyj7ihat8ai5jpswz-mysql.services.clever-cloud.com',
-    user: 'ufdtcujaptdkkepj',
-    password: 'ooTQlVn3rSBsohCYAgM3',
+    host: 'mysql.railway.internal',
+    user: 'root',
+    password: 'TTmNmskSqNcStAOhkbSjbNnlxdKklOgO',
     port: '3306',
-    database: 'bb9qyj7ihat8ai5jpswz'
+    database: 'railway'
 })
 
 pool.getConnection().then(connect => {
