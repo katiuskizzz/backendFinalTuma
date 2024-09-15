@@ -12,7 +12,7 @@ dotenv.config({ path: path.resolve(__dirname, "../../env/.env") });
 export const pool = createPool({
     host: 'mysql.railway.internal',
     user: 'root',
-    password: 'TTmNmskSqNcStAOhkbSjbNnlxdKklOgO',
+    password: 'JOnxKQKZSLoEWTTgtYxjPiamzUrvgmlI',
     port: '3306',
     database: 'railway'
 })
