@@ -1,6 +1,6 @@
 import { pool } from "../../db/conexion.js";
 import { validationResult } from "express-validator";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { userFile } from "../../middlewares/multer.js";
 import multer from "multer";
 

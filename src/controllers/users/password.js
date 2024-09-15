@@ -1,7 +1,7 @@
 import { pool } from '../../db/conexion.js';
 import nodemailer from 'nodemailer';
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 // Función para solicitar restablecimiento de contraseña
 export const solicitarCambioContrasena = async (req, res) => {
