@@ -1,6 +1,5 @@
 import { pool } from '../../db/conexion.js';
 import nodemailer from 'nodemailer';
-import crypto from 'crypto';
 
 import bcrypt from 'bcrypt';
 
