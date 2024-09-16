@@ -179,8 +179,7 @@ export const listarMascotasPendientesAdopcion = async (req, res) => {
             return res.status(400).json({ message: "El ID del usuario es requerido" });
         }
 
-        // Consultar las mascotas del dueño donde el estado de adopción es "reservado"
-        // y unir con la tabla de usuarios para obtener detalles del adoptante
+   
         const queryMascotasPendientes = `
             SELECT 
                 m.id_mascota, 
@@ -245,6 +244,7 @@ export const listarMascotasPendientesAdopcionuser = async (req, res) => {
             return res.status(400).json({ message: "El ID del usuario es requerido" });
         }
 
+        // Consulta para obtener mascotas pendientes de adopción junto con la información del dueño actual y posible adoptador
         const queryMascotasPendientes = `
             SELECT 
                 m.id_mascota, 
@@ -258,16 +258,23 @@ export const listarMascotasPendientesAdopcionuser = async (req, res) => {
                 m.id_departamento,
                 m.id_municipio,
                 m.foto_principal_url,
-                u.nombre AS nombre_adoptante,
-                u.apellido AS apellido_adoptante,
+                du.nombre AS nombre_dueño,
+                du.apellido AS apellido_dueño,
+                du.correo AS correo_dueño,
+                du.telefono AS telefono_dueño,
+                pa.nombre AS nombre_adoptante,
+                pa.apellido AS apellido_adoptante,
+                pa.correo AS correo_adoptante,
+                pa.telefono AS telefono_adoptante,
                 CASE
                     WHEN m.estado = 'adoptado' THEN 'Adopción aceptada'
                     WHEN m.estado = 'en adopcion' THEN 'Adopción rechazada'
                     ELSE 'Pendiente de adopción'
                 END AS estado_adopcion
             FROM mascotas m
-            JOIN usuarios u ON m.id_posible_adoptador = u.id_usuario
-            WHERE m.id_posible_adoptador = ? 
+            JOIN usuarios du ON m.id_usuario = du.id_usuario  -- Dueño actual
+            LEFT JOIN usuarios pa ON m.id_posible_adoptador = pa.id_usuario  -- Posible adoptador
+            WHERE m.id_usuario = ? 
               AND m.estado IN ('reservado', 'adoptado', 'en adopcion', 'pendiente')
         `;
         
@@ -294,8 +301,14 @@ export const listarMascotasPendientesAdopcionuser = async (req, res) => {
             idDepartamento: mascota.id_departamento,
             idMunicipio: mascota.id_municipio,
             fotoPrincipalUrl: mascota.foto_principal_url,
+            nombreDueño: mascota.nombre_dueño,
+            apellidoDueño: mascota.apellido_dueño,
+            correoDueño: mascota.correo_dueño,
+            telefonoDueño: mascota.telefono_dueño,
             nombreAdoptante: mascota.nombre_adoptante,
-            apellidoAdoptante: mascota.apellido_adoptante
+            apellidoAdoptante: mascota.apellido_adoptante,
+            correoAdoptante: mascota.correo_adoptante,
+            telefonoAdoptante: mascota.telefono_adoptante
         }));
 
         // Log de los datos estructurados para la respuesta
